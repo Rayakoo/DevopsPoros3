@@ -6,16 +6,16 @@ services:
       context: ./devsecops-be
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "${PORT}:${PORT}"
     environment:
       - NODE_ENV=development
-      - PORT=3000
-      - JWT_SECRET=your_jwt_secret
-      - USER=your_db_user
-      - PASSWORD=your_db_password
-      - HOST=your_db_host
-      - DATABASE=your_db_name
-      - DB_PORT=5432
+      - PORT=${PORT}
+      - JWT_SECRET=${JWT_SECRET}
+      - USER=${USER}
+      - PASSWORD=${PASSWORD}
+      - HOST=${HOST}
+      - DATABASE=${DATABASE}
+      - DB_PORT=${DB_PORT}
     volumes:
       - ./devsecops-be:/usr/src/app
     depends_on:
@@ -25,11 +25,11 @@ services:
     image: postgres:15
     container_name: postgres_db
     environment:
-      POSTGRES_USER: your_db_user
-      POSTGRES_PASSWORD: your_db_password
-      POSTGRES_DB: your_db_name
+      POSTGRES_USER: ${USER}
+      POSTGRES_PASSWORD: ${PASSWORD}
+      POSTGRES_DB: ${DATABASE}
     ports:
-      - "5432:5432"
+      - "${DB_PORT}:${DB_PORT}"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 

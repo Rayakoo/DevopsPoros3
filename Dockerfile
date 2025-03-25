@@ -1,5 +1,5 @@
-# Use Node.js LTS as the base image
-FROM node:18
+# Stage 1: Build stage
+FROM node:18 AS builder
 
 # Set the working directory
 WORKDIR /usr/src/app
@@ -13,8 +13,23 @@ RUN npm install
 # Copy the rest of the application code
 COPY . .
 
+# Build the application (if applicable, e.g., for frontend or transpilation)
+# RUN npm run build
+
+# Stage 2: Production stage
+FROM node:18-slim
+
+# Set the working directory
+WORKDIR /usr/src/app
+
+# Copy only the necessary files from the build stage
+COPY --from=builder /usr/src/app ./
+
+# Install only production dependencies
+RUN npm install --production
+
 # Expose the application port
-EXPOSE 3000
+EXPOSE ${PORT}
 
 # Start the application
 CMD ["npm", "run", "dev"]
