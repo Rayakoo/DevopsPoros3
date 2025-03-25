@@ -1,9 +1,9 @@
-version: '3.8'
+
 
 services:
   app:
     build:
-      context: ./devsecops-be
+      context: .
       dockerfile: Dockerfile
     ports:
       - "${PORT}:${PORT}"
@@ -17,7 +17,7 @@ services:
       - DATABASE=${DATABASE}
       - DB_PORT=${DB_PORT}
     volumes:
-      - ./devsecops-be:/usr/src/app
+      - .
     depends_on:
       - db
 
